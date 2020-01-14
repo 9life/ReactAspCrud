@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace ReactAspBooks.Models
 {
@@ -12,27 +11,18 @@ namespace ReactAspBooks.Models
         public CrudBookContext(DbContextOptions<CrudBookContext> options)
             : base(options)
         {
-            LoadDefaultBooks();
+           // LoadDefaultBooks();
         }
 
         public virtual DbSet<Books> Books { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=kokorina\\sqlexpress;Database=CrudBook;Integrated Security=True");
-            }
-        }
+      //  public List<Books> getBooks() => Books.Local.ToList<Books>();
 
-        public List<Books> getBooks() => Books.Local.ToList<Books>();
-
-        private void LoadDefaultBooks()
-        {
-            Books.Add(new Books { BookId = 100, BookName = "Alice in wonder", AuthorName = "Luice Carol" });
-            Books.Add(new Books { BookId = 200, BookName = "Idiot", AuthorName = "Feodor Dostoevsky" });
-        }
+        //private void LoadDefaultBooks()
+        //{
+        //    Books.Add(new Books { BookId = 1, BookName = "Alice in wonder", AuthorName = "Luice Carol" });
+        //    Books.Add(new Books { BookId = 2, BookName = "Idiot", AuthorName = "Feodor Dostoevsky" });
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -58,5 +48,12 @@ namespace ReactAspBooks.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        //public void AddBook(Books book)
+        //{
+        //    Books.Add(book);
+        //    this.SaveChanges();
+        //    return;
+        //}
     }
 }

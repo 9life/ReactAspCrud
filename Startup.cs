@@ -22,9 +22,13 @@ namespace ReactAspBooks
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddDbContext<CrudBookContext>(opts =>
-		 opts.UseInMemoryDatabase("CrudBook"));
-			services.AddScoped<CrudBookContext>();
+			var connection = Configuration.GetConnectionString("CrudBook");
+
+			services.AddDbContext<CrudBookContext>(option => option.UseSqlServer(connection));
+
+			//services.AddDbContext<CrudBookContext>(opts =>
+		 //opts.UseInMemoryDatabase("CrudBook"));
+			//services.AddScoped<CrudBookContext>();
 
 			services.AddControllers();
 
