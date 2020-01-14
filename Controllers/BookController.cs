@@ -10,53 +10,20 @@ using ReactAspBooks.Services;
 
 namespace ReactAspBooks.Controllers
 {
-	[ApiController]
 	[Route("api")]
+	[Produces("application/json")]
 	public class BookController : Controller
 	{
-		//private readonly ILogger<BookController> _logger;
-		//private readonly CrudBookContext _context;
-
-		////static readonly List<Books> books;
-
-		////static BookController()
-		////{
-		////	books = new List<Books>
-		////	{
-		////		new Books {BookId = Convert.ToInt32(Guid.NewGuid()), BookName="Master and Margarita", AuthorName="M.Bulgakov"},
-		////		new Books {BookId = Convert.ToInt32(Guid.NewGuid()), BookName="Idiot", AuthorName="F.Dostoevsky"}
-		////	};
-		////}
-		//public BookController (ILogger<BookController> logger, CrudBookContext context)
-		//{
-		//	_logger = logger;
-		//	_context = context;
-		//}
-
-		//[HttpGet]
-		//[Route("books")]
-		//public List<Books> GetAllBooks() => _context.getBooks();
-
-		//[HttpPost]
-		//[Route("book")]
-		//[AllowAnonymous]
-		//public IActionResult AddBook([FromBody] Books book)
-		//{
-		//	_logger.LogInformation($"Add Book for BookId: {book.BookId}");
-		//	_context.AddBook(book);
-		//	return Ok(book);
-		//}
-
-		private readonly BookService _bookService;
-		public BookController(BookService bookService)
+		private readonly IBookService _bookService;
+		public BookController(IBookService bookService)
 		{
 			_bookService = bookService;
 		}
 
 		//Return Collection of Values
 		// GET api/books  
-		[Route("books")]
 		[HttpGet]
+		[Route("books")]
 		public IEnumerable<Books> GetAllBooks()
 		{
 			return _bookService.GetAllBooks();
@@ -64,9 +31,11 @@ namespace ReactAspBooks.Controllers
 
 		[HttpPost]
 		[Route("book/create")]
-		public int CreateBook(Books book)
+		public IActionResult CreateBook(Books book)
 		{
-			return _bookService.AddBook(book);
+			var newBook =  _bookService.CreateBook(book);
+			return Ok(newBook);
+
 		}
 
 		[HttpGet]
@@ -78,35 +47,10 @@ namespace ReactAspBooks.Controllers
 
 		[HttpDelete]
 		[Route("book/delete/{id}")]
-		public int Delete(int id)
+		public IActionResult Delete(int id)
 		{
-			return _bookService.DeleteBook(id);
+			var result = _bookService.DeleteBook(id);
+			return Ok(result);
 		}
-
-		////Return Value  
-		//// GET api/values/5  
-		//public string Get(int id)
-		//{
-		//	return "value";
-		//}
-
-		////Receive the value and post it  
-		//// POST api/values  
-		//public void Post([FromBody]string value)
-		//{
-		//}
-
-		////Receive the value and update it  
-		//// PUT api/values/5  
-		//public void Put(int id, [FromBody]string value)
-		//{
-		//}
-
-		////Delete the value  
-		//// DELETE api/values/5  
-		//public void Delete(int id)
-		//{
-		//}
-
 	}
 }

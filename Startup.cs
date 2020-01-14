@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ReactAspBooks.Models;
+using ReactAspBooks.Services;
 
 namespace ReactAspBooks
 {
@@ -22,7 +23,7 @@ namespace ReactAspBooks
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			var connection = Configuration.GetConnectionString("CrudBook");
+			var connection = Configuration.GetConnectionString("DefaultConnection");
 
 			services.AddDbContext<CrudBookContext>(option => option.UseSqlServer(connection));
 
@@ -31,7 +32,8 @@ namespace ReactAspBooks
 			//services.AddScoped<CrudBookContext>();
 
 			services.AddControllers();
-
+			services.AddMvc();
+			services.AddTransient<IBookService, BookService>();
 			services.AddControllersWithViews();
 
 			// In production, the React files will be served from this directory

@@ -3,36 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ReactAspBooks.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace ReactAspBooks.Services
 {
-	public class BookService
+	public class BookService : IBookService
 	{
-		readonly CrudBookContext _db;
+		private readonly CrudBookContext _db;
 
 		public BookService(CrudBookContext db)
 		{
 			_db = db;
 		}
 
-		public IEnumerable<Books> GetAllBooks()
+		public List<Books> GetAllBooks()
 		{
 			try
 			{
-				return _db.Books.ToList();
+				var books = _db.Books.ToList();
+
+				return books;//_db.Books.ToList();
 			}
 			catch
 			{ throw; }
 		}
 
 		//To Add new book record
-		public int AddBook(Books book)
+		public Books CreateBook(Books book)
 		{
 			try
 			{
 				_db.Books.Add(book);
 				_db.SaveChanges();
-				return 1;
+				return book;
 			}
 			catch
 			{ throw; }
@@ -51,14 +55,14 @@ namespace ReactAspBooks.Services
 		}
 
 		//To Delete the record of a particular book
-		public int DeleteBook(int id)
+		public Books DeleteBook(int id)
 		{
 			try 
 			{
 				Books book = _db.Books.Find(id);
 				_db.Books.Remove(book);
 				_db.SaveChanges();
-				return 1;
+				return book;
 			}
 			catch
 			{

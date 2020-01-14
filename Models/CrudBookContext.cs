@@ -49,11 +49,5 @@ namespace ReactAspBooks.Models
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        //public void AddBook(Books book)
-        //{
-        //    Books.Add(book);
-        //    this.SaveChanges();
-        //    return;
-        //}
-    }
+	}
 }
