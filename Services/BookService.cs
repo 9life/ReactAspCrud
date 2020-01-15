@@ -34,9 +34,16 @@ namespace ReactAspBooks.Services
 		{
 			try
 			{
-				_db.Books.Add(book);
+				var id = _db.Books.Count() + 1;
+
+				Books newbook = new Books();
+				newbook.Id = id;
+				newbook.bookName = book.bookName;
+				newbook.authorName = book.authorName;
+
+				_db.Books.Add(newbook);
 				_db.SaveChanges();
-				return book;
+				return newbook;
 			}
 			catch
 			{ throw; }
@@ -55,14 +62,14 @@ namespace ReactAspBooks.Services
 		}
 
 		//To Delete the record of a particular book
-		public Books DeleteBook(int id)
+		public string DeleteBook(int id)
 		{
 			try 
 			{
 				Books book = _db.Books.Find(id);
 				_db.Books.Remove(book);
 				_db.SaveChanges();
-				return book;
+				return "Book was deleted";
 			}
 			catch
 			{

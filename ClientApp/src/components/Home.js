@@ -1,32 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import BookTable from './BookTable';
+import AddBookForm from './AddBookForm';
+import axios from 'axios';
 
 const Home = () => {
     const bookData = [
-        { id: 0, bookName: null, authorName: null }];
+        { bookId: 0, bookName: null, authorName: null }];
     const [hasError, setErrors] = useState(false);
     const [books, setBooks] = useState(bookData);
 
-
+    const addBook = book => {
+        book.bookId = books.length + 1
+        setBooks([...books, book])
+    }
 
     useEffect(() => {
+        //async function fetchData() {
+        //    const res = await axios.get('https://localhost:44375/api/books');
+        //    res.json()
+        //        .then(res => setBooks(res))
+        //        .catch(err => setErrors(err));
+        //            console.log(res);
+        //}
+
         async function fetchData() {
-            const res = await fetch("https://localhost:44375/api/books");
+            const res = await fetch("api/books");
             res.json()
                 .then(res => setBooks(res))
                 .catch(err => setErrors(err));
+        console.log(res);
         }
-
         fetchData();
     });
 
     return (
         
         <div>
-            <BookTable books={books}/>
-            <span>{JSON.stringify(books)}</span>
+            <AddBookForm addBook={addBook} books={books}/>
             <hr />
-            <span>Has error: {JSON.stringify(hasError)}</span>
+            <BookTable books={books} />
+            <hr />
+            
+            <span>{console.log(JSON.stringify(books))}</span>
+            <span>{console.log(" Has error: ", JSON.stringify(hasError))}</span>
         </div>
         )
 }

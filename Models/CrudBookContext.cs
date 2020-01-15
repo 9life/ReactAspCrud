@@ -28,19 +28,19 @@ namespace ReactAspBooks.Models
         {
             modelBuilder.Entity<Books>(entity =>
             {
-                entity.HasKey(e => e.BookId)
-                    .HasName("PK__books__3DE0C207CFB115C2");
+                entity.HasKey(e => e.Id);
+                   // .HasName("PK__books__3DE0C207CFB115C2");
 
-                entity.ToTable("books");
+                entity.ToTable("new_books");
 
-                entity.Property(e => e.BookId).ValueGeneratedNever();
+                //entity.Property(e => e.Id).ValueGeneratedNever();
 
-                entity.Property(e => e.AuthorName)
-                    .HasMaxLength(255)
+                entity.Property(e => e.authorName)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.BookName)
-                    .HasMaxLength(255)
+                entity.Property(e => e.bookName)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
             });
 

@@ -31,10 +31,10 @@ namespace ReactAspBooks.Controllers
 
 		[HttpPost]
 		[Route("book/create")]
-		public IActionResult CreateBook(Books book)
+		public string CreateBook(Books book)
 		{
-			var newBook =  _bookService.CreateBook(book);
-			return Ok(newBook);
+			_bookService.CreateBook(book);
+			return "Book was added";
 
 		}
 
