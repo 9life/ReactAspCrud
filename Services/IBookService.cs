@@ -10,7 +10,7 @@ namespace ReactAspBooks.Services
 	{
 		List<Books> GetAllBooks();
 		Books CreateBook(Books book);
-		string DeleteBook(int id);
+		Books DeleteBook(int id);
 		Books GetBookInfo(int id);
 	}
 }

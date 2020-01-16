@@ -15,6 +15,12 @@ namespace ReactAspBooks.Services
 		public BookService(CrudBookContext db)
 		{
 			_db = db;
+			if (!_db.Books.Any())
+			{
+				_db.Books.Add(new Books { bookName = "Idiot", authorName = "F.Dostoevsky" });
+				_db.Books.Add(new Books { bookName = "M and M", authorName = "M.Bulgakov" });
+				_db.SaveChanges();
+			}
 		}
 
 		public List<Books> GetAllBooks()
@@ -34,10 +40,8 @@ namespace ReactAspBooks.Services
 		{
 			try
 			{
-				var id = _db.Books.Count() + 1;
-
-				Books newbook = new Books();
-				newbook.Id = id;
+				var newbook = new Books();
+				newbook.Id = _db.Books.Count() + 1;
 				newbook.bookName = book.bookName;
 				newbook.authorName = book.authorName;
 
@@ -62,14 +66,14 @@ namespace ReactAspBooks.Services
 		}
 
 		//To Delete the record of a particular book
-		public string DeleteBook(int id)
+		public Books DeleteBook(int id)
 		{
 			try 
 			{
 				Books book = _db.Books.Find(id);
 				_db.Books.Remove(book);
 				_db.SaveChanges();
-				return "Book was deleted";
+				return book;
 			}
 			catch
 			{

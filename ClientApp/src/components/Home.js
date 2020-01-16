@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BookTable from './BookTable';
 import AddBookForm from './AddBookForm';
-import axios from 'axios';
+import {BookApi} from '../api/books';
 
 const Home = () => {
     const bookData = [
@@ -12,31 +12,51 @@ const Home = () => {
     const addBook = book => {
         book.bookId = books.length + 1
         setBooks([...books, book])
+
+        addBook("api/book/create", book)
+            .then(data => console.log(JSON.stringify(data))) // JSON-строка полученная после вызова `response.json()`
+            .catch(error => console.error(error));
+
+        function addBook(url = '', data = {}) {
+            // Значения по умолчанию обозначены знаком *
+            return fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, cors, *same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrer: 'no-referrer', // no-referrer, *client
+                body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
+            })
+                .then(response => response.json()); // парсит JSON ответ в Javascript объект
+            console.log("fetch data: ", data);
+        }
     }
 
-    useEffect(() => {
-        //async function fetchData() {
-        //    const res = await axios.get('https://localhost:44375/api/books');
-        //    res.json()
-        //        .then(res => setBooks(res))
-        //        .catch(err => setErrors(err));
-        //            console.log(res);
-        //}
 
-        async function fetchData() {
+    
+
+    useEffect(() => {
+
+        async function getBooks() {
             const res = await fetch("api/books");
             res.json()
                 .then(res => setBooks(res))
                 .catch(err => setErrors(err));
-        console.log(res);
+            console.log(res);
         }
-        fetchData();
+    
+        getBooks();
     });
 
     return (
         
         <div>
-            <AddBookForm addBook={addBook} books={books}/>
+            <AddBookForm addBook={addBook}/>
             <hr />
             <BookTable books={books} />
             <hr />

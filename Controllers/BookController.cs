@@ -10,6 +10,7 @@ using ReactAspBooks.Services;
 
 namespace ReactAspBooks.Controllers
 {
+	[ApiController]
 	[Route("api")]
 	[Produces("application/json")]
 	public class BookController : Controller
@@ -31,10 +32,10 @@ namespace ReactAspBooks.Controllers
 
 		[HttpPost]
 		[Route("book/create")]
-		public string CreateBook(Books book)
+		public ActionResult CreateBook([FromBody] Books book)
 		{
 			_bookService.CreateBook(book);
-			return "Book was added";
+			return Json(book);
 
 		}
 
@@ -45,7 +46,7 @@ namespace ReactAspBooks.Controllers
 			return _bookService.GetBookInfo(id);
 		}
 
-		[HttpDelete]
+		[HttpPost]
 		[Route("book/delete/{id}")]
 		public IActionResult Delete(int id)
 		{
