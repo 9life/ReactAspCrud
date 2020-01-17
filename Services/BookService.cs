@@ -15,12 +15,12 @@ namespace ReactAspBooks.Services
 		public BookService(CrudBookContext db)
 		{
 			_db = db;
-			if (!_db.Books.Any())
-			{
-				_db.Books.Add(new Books { bookName = "Idiot", authorName = "F.Dostoevsky" });
-				_db.Books.Add(new Books { bookName = "M and M", authorName = "M.Bulgakov" });
-				_db.SaveChanges();
-			}
+			//if (!_db.Books.Any())
+			//{
+			//	_db.Books.Add(new Books { Id = 1, bookName = "Idiot", authorName = "F.Dostoevsky" });
+			//	_db.Books.Add(new Books { Id = 2, bookName = "M and M", authorName = "M.Bulgakov" });
+			//	_db.SaveChanges();
+			//}
 		}
 
 		public List<Books> GetAllBooks()
@@ -41,7 +41,7 @@ namespace ReactAspBooks.Services
 			try
 			{
 				var newbook = new Books();
-				newbook.Id = _db.Books.Count() + 2;
+				newbook.Id = _db.Books.Count() + 1;
 				newbook.bookName = book.bookName;
 				newbook.authorName = book.authorName;
 

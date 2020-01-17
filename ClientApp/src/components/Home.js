@@ -32,7 +32,8 @@ const Home = () => {
                 referrer: 'no-referrer', // no-referrer, *client
                 body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
             })
-                .then(response => response.json()); // парсит JSON ответ в Javascript объект
+                .then(response => response.json()) // парсит JSON ответ в Javascript объект
+                //.then(setBooks(data));
         }
         console.log("book has been add");
     }
@@ -55,28 +56,28 @@ const Home = () => {
         }
     }
 
+    async function getBooks() {
+        const res = await fetch("api/books");
+        res.json()
+            .then(res => setBooks(res))
+            .catch(err => setErrors(err));
+        console.log("get all books", res);
+    }
+
     function redirectToList() {
       //  location.href = '/books'
     }
 
     useEffect(() => {
-
-        async function getBooks() {
-            const res = await fetch("api/books");
-            res.json()
-                .then(res => setBooks(res))
-                .catch(err => setErrors(err));
-            console.log(res);
-        }
-    
         getBooks();
-    }, []);
+    });
 
     return (
         
         <div>
             <AddBookForm addBook={addBook}/>
             <hr />
+            
             <BookTable books={books} deleteBook={delBook}/>
             <hr />
             
