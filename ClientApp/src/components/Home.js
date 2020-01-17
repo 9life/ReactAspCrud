@@ -38,19 +38,26 @@ const Home = () => {
     }
 
     const delBook = id => {
-        deleteBook(id)
-            .then(response => console.log(response.json()));
+        deleteBook(id);
 
         function deleteBook(id) {
             return fetch(`api/book/delete/${id}`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8' // Indicates the content 
+                },
             })
-            
+                .then(res => {
+                    console.log('Deleted:', res.message)
+                    return res
+                })
+                .catch(err => console.error(err))
         }
-
-        console.log("book has been del");
     }
-    
+
+    function redirectToList() {
+      //  location.href = '/books'
+    }
 
     useEffect(() => {
 
