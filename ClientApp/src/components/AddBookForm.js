@@ -1,10 +1,9 @@
 ﻿import React, { useState } from 'react';
-import axios from 'axios';
 
 
 const AddBookForm = props => {
 
-    const initialFormState = { id: null, bookName: '', authorName: '' }
+    const initialFormState = { bookName: '', authorName: '' }
     const [book, setBook] = useState(initialFormState);
 
 
@@ -17,6 +16,7 @@ const AddBookForm = props => {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (!book.bookName || !book.authorName) return
+        console.log("book object:", book);
         props.addBook(book);
         setBook(initialFormState);
     }

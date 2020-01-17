@@ -16,8 +16,8 @@ const BookTable = (props) => (
                     <td>{book.bookName}</td>
                     <td>{book.authorName}</td>
                 <td>
-                    <button className="button muted-button">Edit</button>
-                    <button className="button muted-button">Delete</button>
+                        <button className="button muted-button">Edit</button>
+                        <button className="button muted-button" onClick={props.deleteBook}>Delete</button>
                 </td>
                 </tr>
             ))}

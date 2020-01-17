@@ -10,8 +10,8 @@ const Home = () => {
     const [books, setBooks] = useState(bookData);
 
     const addBook = book => {
-        book.bookId = books.length + 1
-        setBooks([...books, book])
+        //book.bookId = books.length + 1
+        //setBooks([...books, book])
 
         addBook("api/book/create", book)
             .then(data => console.log(JSON.stringify(data))) // JSON-строка полученная после вызова `response.json()`
@@ -33,11 +33,23 @@ const Home = () => {
                 body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
             })
                 .then(response => response.json()); // парсит JSON ответ в Javascript объект
-            console.log("fetch data: ", data);
         }
+        console.log("book has been add");
     }
 
+    const delBook = id => {
+        deleteBook(id)
+            .then(response => console.log(response.json()));
 
+        function deleteBook(id) {
+            return fetch(`api/book/delete/${id}`, {
+                method: 'POST'
+            })
+            
+        }
+
+        console.log("book has been del");
+    }
     
 
     useEffect(() => {
@@ -51,14 +63,14 @@ const Home = () => {
         }
     
         getBooks();
-    });
+    }, []);
 
     return (
         
         <div>
             <AddBookForm addBook={addBook}/>
             <hr />
-            <BookTable books={books} />
+            <BookTable books={books} deleteBook={delBook}/>
             <hr />
             
             <span>{console.log(JSON.stringify(books))}</span>

@@ -41,7 +41,7 @@ namespace ReactAspBooks.Services
 			try
 			{
 				var newbook = new Books();
-				newbook.Id = _db.Books.Count() + 1;
+				newbook.Id = _db.Books.Count() + 2;
 				newbook.bookName = book.bookName;
 				newbook.authorName = book.authorName;
 
